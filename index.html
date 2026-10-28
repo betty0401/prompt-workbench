@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>提詞器工作台</title>
+  <style>
+    :root{--bg:#f5f4ef;--panel:#fff;--ink:#17191d;--muted:#737681;--line:#e7e4dc;--purple:#6f55f5;--purple2:#8970ff;--dark:#17191b}
+    *{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,"Noto Sans TC","Microsoft JhengHei",sans-serif}
+    .top{height:72px;background:#fff;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;padding:0 42px;position:sticky;top:0;z-index:2}
+    .brand{display:flex;align-items:center;gap:12px;font-weight:800;font-size:21px}.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,#745cff,#af99ff);display:grid;place-items:center;color:#fff;font-size:18px}.top-right{display:flex;gap:10px;align-items:center;color:var(--muted);font-size:14px}.pill{border:1px solid var(--line);background:#faf9f6;border-radius:999px;padding:9px 14px}
+    main{max-width:1240px;margin:0 auto;padding:56px 28px 80px}.eyebrow{color:var(--purple);font-size:13px;font-weight:800;letter-spacing:.12em;margin-bottom:14px}.hero{display:flex;justify-content:space-between;align-items:end;gap:30px;margin-bottom:34px}.hero h1{font-size:clamp(36px,5vw,66px);line-height:1.04;letter-spacing:-.055em;margin:0 0 18px;max-width:760px}.hero p{color:var(--muted);font-size:16px;margin:0;line-height:1.7}.status{background:#ebe8ff;color:#5941dc;border-radius:14px;padding:13px 16px;font-size:13px;white-space:nowrap}.grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.card{background:var(--panel);border:1px solid var(--line);border-radius:24px;padding:24px;box-shadow:0 8px 28px rgba(32,28,8,.04)}.card-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.card-title{font-size:18px;font-weight:800}.step{font-size:11px;color:var(--purple);font-weight:800;letter-spacing:.08em}textarea{width:100%;min-height:355px;resize:vertical;border:2px solid #cfc6ff;border-radius:16px;background:#fffdfb;padding:20px;font-size:16px;line-height:1.8;outline:none;color:var(--ink);font-family:inherit}textarea:focus{border-color:var(--purple);box-shadow:0 0 0 4px #eeeaff}.hint{font-size:12px;color:var(--muted);margin:10px 2px 18px}.chips{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 14px;cursor:pointer;font-size:13px}.chip.active,.chip:hover{background:#f0edff;border-color:#c6bbff;color:#563fe1}.actions{display:flex;gap:10px}.btn{border:0;border-radius:12px;padding:13px 18px;font-weight:700;cursor:pointer;font-family:inherit}.primary{background:linear-gradient(135deg,var(--purple),var(--purple2));color:#fff;flex:1}.secondary{background:#f1f0eb;color:#54565e}.primary:hover{filter:brightness(1.05)}.output{min-height:355px;background:var(--dark);border-radius:16px;color:#f7f7f4;padding:24px;font-size:17px;line-height:1.85;white-space:pre-wrap;overflow:auto}.output.empty{color:#a6a9af;display:flex;align-items:center;justify-content:center;text-align:center;font-size:15px}.output strong{color:#b9aaff}.bottom{margin-top:22px;padding:18px 20px;border:1px solid #e9e0ac;background:#fffbea;border-radius:15px;color:#776b30;font-size:13px;line-height:1.6}.toast{position:fixed;bottom:26px;left:50%;transform:translate(-50%,20px);background:#161719;color:#fff;padding:12px 18px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none}.toast.show{opacity:1;transform:translate(-50%,0)}
+    .example{background:#fff;border:1px solid var(--line);border-radius:24px;padding:18px;margin-bottom:22px;box-shadow:0 8px 28px rgba(32,28,8,.04)}.example-head{display:flex;justify-content:space-between;align-items:center;margin:0 4px 14px}.example-title{font-weight:800}.example-label{font-size:11px;color:var(--purple);font-weight:800;letter-spacing:.08em}.example img{display:block;width:100%;max-height:420px;object-fit:cover;object-position:center;border-radius:16px;background:#17191b}.caption{color:var(--muted);font-size:12px;margin:10px 4px 0}
+    .ref-box{border:1.5px dashed #c9c4b8;border-radius:15px;padding:14px;margin:12px 0 18px;background:#faf9f5}.ref-row{display:flex;align-items:center;justify-content:space-between;gap:12px}.ref-title{font-size:14px;font-weight:800}.ref-sub{font-size:12px;color:var(--muted);margin-top:4px}.file-btn{background:#fff;border:1px solid var(--line);border-radius:10px;padding:10px 13px;font-weight:700;cursor:pointer;white-space:nowrap}.file-btn:hover{border-color:var(--purple);color:var(--purple)}#refInput{display:none}.ref-preview{display:none;align-items:center;gap:10px;margin-top:12px}.ref-preview.show{display:flex}.ref-preview img{width:58px;height:58px;object-fit:cover;border-radius:10px}.remove-ref{border:0;background:transparent;color:#a34d54;cursor:pointer;font-size:12px}
+    @media(max-width:800px){.top{padding:0 18px}.top-right .pill{display:none}main{padding:34px 16px}.hero{display:block}.status{display:inline-block;margin-top:18px}.grid{grid-template-columns:1fr}.card{padding:18px}.output,textarea{min-height:280px}}
+  </style>
+</head>
+<body>
+  <header class="top"><div class="brand"><div class="logo">✦</div>提詞器工作台</div><div class="top-right"><span>本機模式</span><span class="pill">不需要 API Key</span></div></header>
+  <main>
+    <section class="hero"><div><div class="eyebrow">PROMPT WORKBENCH</div><h1>把腦中的畫面，整理成好用的提詞。</h1><p>輸入你的想法，選擇用途，系統會幫你整理成清楚、可直接使用的提示詞。</p></div><div class="status">● 已就緒，等待輸入</div></section>
+    <section class="example"><div class="example-head"><div class="example-title">範例圖片</div><div class="example-label">EXAMPLE / PREVIEW</div></div><img src="sample-scene.svg" alt="電影感沙漠星球示意圖"><div class="caption">示範畫面：電影感沙漠、黃昏光線與遠方星球。</div></section>
+    <section class="grid">
+      <div class="card"><div class="card-head"><div class="card-title">我們提需求</div><div class="step">01 / INPUT</div></div>
+        <textarea id="input" placeholder="例如：一位穿著白大衣的女孩站在紅色沙漠邊，遠處有巨大的行星，希望是電影感、低角度、黃昏光線……"></textarea>
+        <div class="hint">寫下主體、場景、構圖、光線、風格與你不想出現的內容。</div>
+        <div class="ref-box"><div class="ref-row"><div><div class="ref-title">參考圖</div><div class="ref-sub">加入一張圖片，幫助你保留構圖、色調或風格方向。</div></div><label class="file-btn" for="refInput">選擇圖片</label></div><input id="refInput" type="file" accept="image/*"><div class="ref-preview" id="refPreview"><img id="refThumb" alt="參考圖預覽"><div id="refName"></div><button class="remove-ref" id="removeRef">移除</button></div></div>
+        <div class="chips"><button class="chip active">通用</button><button class="chip">MOSS-Image</button><button class="chip">Krea 2</button><button class="chip">Midjourney</button></div>
+        <div class="actions"><button class="btn secondary" id="clear">清除</button><button class="btn primary" id="generate">整理提問 →</button></div>
+      </div>
+      <div class="card"><div class="card-head"><div class="card-title">出提詞</div><div class="step">02 / OUTPUT</div></div>
+        <div id="output" class="output empty">整理後的提問會顯示在這裡。</div>
+        <div class="actions" style="margin-top:12px"><button class="btn primary" id="copy">複製到剪貼簿</button><button class="btn secondary" id="save">儲存</button></div>
+      </div>
+    </section>
+    <div class="bottom">提示：這個版本完全在你的瀏覽器中運作，不會把內容送到外部服務。你可以先用它整理需求，再貼到任何 AI 工具中。</div>
+  </main><div class="toast" id="toast">已複製到剪貼簿</div>
+  <script>
+    const input=document.querySelector('#input'), output=document.querySelector('#output'), toast=document.querySelector('#toast'); let referenceFile=null;
+    document.querySelector('#refInput').onchange=e=>{referenceFile=e.target.files[0];if(!referenceFile)return;document.querySelector('#refThumb').src=URL.createObjectURL(referenceFile);document.querySelector('#refName').textContent=referenceFile.name;document.querySelector('#refPreview').classList.add('show')};
+    document.querySelector('#removeRef').onclick=()=>{referenceFile=null;document.querySelector('#refInput').value='';document.querySelector('#refPreview').classList.remove('show')};
+    document.querySelectorAll('.chip').forEach(c=>c.onclick=()=>{document.querySelectorAll('.chip').forEach(x=>x.classList.remove('active'));c.classList.add('active')});
+    function showToast(t){toast.textContent=t;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800)}
+    document.querySelector('#clear').onclick=()=>{input.value='';output.textContent='整理後的提問會顯示在這裡。';output.className='output empty'};
+    document.querySelector('#generate').onclick=()=>{let v=input.value.trim();if(!v){showToast('請先輸入內容');input.focus();return} output.className='output';output.textContent='正在整理你的需求…';setTimeout(()=>{output.textContent=`請以專業、精準且具畫面感的方式生成以下內容：\n\n${v}\n\n${referenceFile?`【參考圖】\n請參考所附圖片的構圖、色調與整體視覺方向，但不要複製其中的文字或人物身份。\n\n`:''}【視覺方向】\n- 主體清晰，保留原始概念與情緒\n- 使用電影感構圖，注意景深、光線與視覺層次\n- 細節自然、材質可信，畫面具有高品質完成度\n\n【負面提示】\n避免模糊、低解析度、比例失衡、重複物件、文字浮水印與不自然的肢體。`;},400)};
+    document.querySelector('#copy').onclick=async()=>{if(output.classList.contains('empty'))return showToast('目前沒有可複製的內容');await navigator.clipboard.writeText(output.textContent);showToast('已複製到剪貼簿')};
+    document.querySelector('#save').onclick=()=>{localStorage.setItem('prompt-workbench',input.value);showToast('已儲存到本機')};
+    input.value=localStorage.getItem('prompt-workbench')||'';
+  </script>
+</body></html>
